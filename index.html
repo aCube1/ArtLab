@@ -1,53 +1,35 @@
-<!DOCTYPE html>
-<html lang="pt-BR"> <!-- Define que o documento é HTML5 e que o idioma principal é português do Brasil -->
-<head>
-  <meta charset="UTF-8" /> <!-- Define que os caracteres usados são UTF-8 (permite acentos e emojis) -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ajusta o layout para dispositivos móveis -->
-  <title>Livraria</title> <!-- Título que aparece na aba do navegador -->
+<!DOCTYPE <!DOCTYPE html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Art Lab</title>
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<h1>🎨 Galeria de Artes</h1>
 
-  <style>
-    /* Estilo básico da página */
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    button { margin: 5px; padding: 8px 12px; } /* Espaçamento e tamanho dos botões */
-    #output { 
-      margin-top: 20px; 
-      white-space: pre; /* Mantém quebras de linha no texto mostrado */
-      background: #f5f5f5; 
-      padding: 10px; 
-      border: 1px solid #ddd; 
-    }
-    form { margin-top: 15px; }
-    input { margin: 5px; padding: 5px; } /* Campos de texto mais organizados */
-  </style>
-</head>
-<body>
-  <h1>📚 Sistema da Livraria</h1> <!-- Título principal na tela -->
+		<div id="buttons">
+			<button data-action="init">0 - Iniciar galeria</button>
+			<button data-action="list">1 - Listar artes</button>
+			<button data-action="add">2 - Adicionar nova arte</button>
+			<button data-action="update">3 - Atualizar arte</button>
+			<button data-action="delete">4 - Remover arte</button>
+			<button data-action="clear">5 - Limpar galeria</button>
+			<button data-action="listByAuthor">
+				6 - Listar obras por autor
+			</button>
+			<button data-action="countByAuthor">
+				7 - Contar obras por autor
+			</button>
+			<button data-action="exit">8 - Sair</button>
+		</div>
 
-  <!-- Área de botões para o menu principal -->
-  <div id="buttons">
-    <!-- Cada botão tem um atributo "data-action" para indicar a ação que será executada -->
-    <button data-action="init">0 - Iniciar Livraria</button> <!-- NOVO -->
-    <button data-action="list">1 - Listar livros</button>
-    <button data-action="add">2 - Adicionar novo livro</button>
-    <button data-action="update">3 - Atualizar livro</button>
-    <button data-action="delete">4 - Remover livro</button>
-    <button data-action="clear">5 - Limpar livraria</button>
-    <button data-action="listByAuthor">6 - Listar livros por autor</button>
-    <button data-action="countByAuthor">7 - Contar livros por autor</button>
-    <button data-action="exit">8 - Sair</button>
-  </div>
+		<div id="forms"></div>
 
+		<div id="output"></div>
 
-  <!-- Aqui será exibido dinamicamente o formulário de cada ação (por exemplo, adicionar livro) -->
-  <div id="forms"></div>
-
-  <!-- Área para mostrar resultados (exemplo: lista de livros cadastrados) -->
-  <div id="output"></div>
-
-  <!-- Biblioteca externa Chart.js (para gráficos, se forem usados) -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <!-- Arquivo JavaScript separado (módulo) que controla a interface -->
-  <script type="module" src="ui.js"></script>
-</body>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<script type="module" src="ui.js"></script>
+	</body>
 </html>
