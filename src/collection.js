@@ -131,6 +131,9 @@ const request_image = async (id) => {
 	}
 };
 
+/**
+ * Clear localStorage memory
+ */
 const reset_gallery = () => {
 	localStorage.removeItem(STORAGE_KEY);
 	console.log("Art gallery cleared!");
