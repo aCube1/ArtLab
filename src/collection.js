@@ -113,7 +113,6 @@ const request_image = async (id) => {
 		};
 
 		// Cache art in localStorage for future requests
-		store_art(art_metadata);
 		return art_metadata;
 	} catch (err) {
 		console.error(`Failed to fetch data from '${url}': ${err.message}`);
@@ -127,8 +126,16 @@ const reset_gallery = () => {
 };
 
 const store_art = (art) => {
-	const storage = _request_storage();
-	localStorage.setItem(STORAGE_KEY, JSON.stringify([...storage, art]));
+	const storage_data = _request_storage();
+	const matches = storage_data.filter((img) => img.id == art.id);
+	if (matches.length > 0 && matches[0]) {
+		delete_art(matches[0].id);
+		console.warn(
+			`Art with ID ${matches[0].id} already exists! Deleting it... :D`,
+		);
+	}
+
+	localStorage.setItem(STORAGE_KEY, JSON.stringify([...storage_data, art]));
 };
 
 const delete_art = (id) => {
@@ -153,15 +160,9 @@ const _encode_file_as_base64 = (file) => {
 };
 
 const create_art_object = async (id, year, image, thumbnail = null) => {
-	const img = await request_image(id);
-	if (img) {
-		delete_art(id);
-		console.warn(`Art with ID ${id} already exists! Deleting it... :D`);
-	}
-
 	return {
 		...update_art_metadata({}, id, year),
-		...update_art_image({}, image, thumbnail),
+		...(await update_art_image({}, image, thumbnail)),
 	};
 };
 
@@ -181,7 +182,7 @@ const update_art_image = async (art, image, thumbnail = null) => {
 
 	if (!img_data || !thumb_data) {
 		console.error(`Failed to read image file`);
-		return {};
+		return null;
 	}
 
 	console.log(`Art with ID '${id} image was updated'`);
