@@ -1,3 +1,13 @@
+/**
+ * @typedef ArtObject
+ * @type {object}
+ * @property {number} id - Unique ID
+ * @property {number} year - Release year
+ * @property {URL} image_url - Primary image URL
+ * @property {URL} thumbnail_url - Thumbnail image URL
+ * @property {Array<URL>} additional_image_urls - Additional images URLs
+ */
+
 const METMUSEUM_URL =
 	"https://collectionapi.metmuseum.org/public/collection/v1/";
 
@@ -28,8 +38,8 @@ const _encode_query = (terms) => {
 /**
  * Search images in the MetMuseum database
  *
- * @param {String} query String of terms
- * @return {Promise<Array>} List of IDs for each image that matches the query
+ * @param {string} query - String of terms
+ * @return {Promise<array>} List of IDs for each image that matches the query
  */
 const query_gallery = async (query) => {
 	if (!query) {
@@ -78,10 +88,11 @@ const _request_storage = () => {
 };
 
 /**
- * Request image from MetMuseum using it's ID
+ * Request image from MetMuseum using it's ID. Return stored object if
+ * it already exists inside localStorage
  *
- * @param {Number} id MetMuseum valid ID
- * @return {Promise<Object>|null} Image metadata
+ * @param {number} id - MetMuseum valid ID
+ * @return {Promise<(ArtObject|null)>} Image metadata
  */
 const request_image = async (id) => {
 	// Firstly, check if ID is already in localStorage
@@ -125,6 +136,12 @@ const reset_gallery = () => {
 	console.log("Art gallery cleared!");
 };
 
+/**
+ * Store art object in localStorage. If art with ID already exists, delete it
+ * before storing the new one
+ *
+ * @param {ArtObject} art - Art object
+ */
 const store_art = (art) => {
 	const storage_data = _request_storage();
 	const matches = storage_data.filter((img) => img.id == art.id);
@@ -138,6 +155,12 @@ const store_art = (art) => {
 	localStorage.setItem(STORAGE_KEY, JSON.stringify([...storage_data, art]));
 };
 
+/**
+ * Delete art stored in localStorage
+ *
+ * @param {number} id - Unique ID
+ * @return {ArtObject} Gallery list without ID's art
+ */
 const delete_art = (id) => {
 	const storage_data = _request_storage();
 	const filtered_gallery = storage_data.filter((img) => img.id != id);
@@ -159,6 +182,12 @@ const _encode_file_as_base64 = (file) => {
 	});
 };
 
+/**
+ * Create new art object with provided metadata.
+ *
+ * @see update_art_image update_art_metadata
+ * @return {Promise<ArtObject>} - New art with metadata
+ */
 const create_art_object = async (id, year, image, thumbnail = null) => {
 	return {
 		...update_art_metadata({}, id, year),
@@ -166,6 +195,14 @@ const create_art_object = async (id, year, image, thumbnail = null) => {
 	};
 };
 
+/**
+ * Update art's metadata with user's provided info
+ *
+ * @param {ArtObject} art - List with art's metadata
+ * @param {number} id - Unique ID
+ * @param {number} year - Release year
+ * @return {ArtObject} Updated list with new metadata
+ */
 const update_art_metadata = (art, id, year) => {
 	return {
 		...art,
@@ -174,6 +211,14 @@ const update_art_metadata = (art, id, year) => {
 	};
 };
 
+/**
+ * Update art's image and thumbnail using user's provided data
+ *
+ * @param {ArtObject} art - List with art's metadata
+ * @param {File} image - Image data
+ * @param {File?} thumbnail - Thumbail's data <optional>
+ * @return {Promise<(ArtObject|null)>} Updated list with new image and thumbnail
+ */
 const update_art_image = async (art, image, thumbnail = null) => {
 	const img_data = await _encode_file_as_base64(image);
 	const thumb_data = thumbnail
