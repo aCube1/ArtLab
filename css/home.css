@@ -1,0 +1,9 @@
+#home {
+	display: flex;
+	min-height: auto;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+}

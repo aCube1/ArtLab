@@ -1,35 +1,66 @@
-<!DOCTYPE <!DOCTYPE html>
-<html lang="pt-BR">
+<!doctype html>
+<html lang="en-US">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Art Lab</title>
+
 		<link href="css/style.css" rel="stylesheet" />
+		<link href="css/header.css" rel="stylesheet" />
+		<link href="css/home.css" rel="stylesheet" />
+
+		<title>Monalisa's Gallery</title>
 	</head>
 	<body>
-		<h1>🎨 Galeria de Artes</h1>
+		<header>
+			<nav id="navbar">
+				<img
+					id="nav_logo"
+					src="assets/monalisalogo.svg"
+					alt="Gallery's logo"
+				/>
 
-		<div id="buttons">
-			<button data-action="init">0 - Iniciar galeria</button>
-			<button data-action="list">1 - Listar artes</button>
-			<button data-action="add">2 - Adicionar nova arte</button>
-			<button data-action="update">3 - Atualizar arte</button>
-			<button data-action="delete">4 - Remover arte</button>
-			<button data-action="clear">5 - Limpar galeria</button>
-			<button data-action="listByAuthor">
-				6 - Listar obras por autor
-			</button>
-			<button data-action="countByAuthor">
-				7 - Contar obras por autor
-			</button>
-			<button data-action="exit">8 - Sair</button>
-		</div>
+				<form class="search">
+					<div id="nav_search">
+						<input type="search" id="nav_textinput" />
+						<button type="submit" id="nav_submit">🔍</button>
+					</div>
+				</form>
 
-		<div id="forms"></div>
+				<ul id="nav_list">
+					<li class="nav-item active">
+						<a href="#home">HOME</a>
+					</li>
 
-		<div id="output"></div>
+					<li class="nav-item">
+						<a href="#catalog">CATALOG</a>
+					</li>
 
-		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-		<script type="module" src="src/ui.js"></script>
+					<li class="nav-item">
+						<a href="#about">ABOUT</a>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="content">
+			<section id="home">
+				<div id="cta">
+					<h1 class="title">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+						sed do eiusmod tempor incididunt ut labore et dolore
+						magna aliqua. Ut enim ad minim veniam, quis nostrud
+						exercitation ullamco laboris nisi ut aliquip ex ea
+						commodo consequat.
+					</h1>
+					<p class="description">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+						sed do eiusmod tempor incididunt ut labore et dolore
+						magna aliqua. Ut enim ad minim veniam, quis nostrud
+						exercitation ullamco laboris nisi ut aliquip ex ea
+						commodo consequat.
+					</p>
+				</div>
+			</section>
+		</main>
 	</body>
 </html>
