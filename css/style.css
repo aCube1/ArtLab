@@ -12,8 +12,3 @@
 body {
 	background-color: #1d1d1b;
 }
-
-input:focus {
-	border: none;
-	outline: none;
-}

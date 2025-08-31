@@ -6,27 +6,23 @@
 
 		<link href="css/style.css" rel="stylesheet" />
 		<link href="css/header.css" rel="stylesheet" />
-		<link href="css/home.css" rel="stylesheet" />
+		<link href="css/gallery.css" rel="stylesheet" />
+
+		<script type="module" src="src/collection.js"></script>
+		<script type="module" src="src/ui.js"></script>
 
 		<title>Monalisa's Gallery</title>
 	</head>
 	<body>
 		<header>
-			<nav id="navbar">
+			<nav id="Navbar">
 				<img
-					id="nav_logo"
+					id="NavLogo"
 					src="assets/monalisalogo.svg"
 					alt="Gallery's logo"
 				/>
 
-				<form class="search">
-					<div id="nav_search">
-						<input type="search" id="nav_textinput" />
-						<button type="submit" id="nav_submit">🔍</button>
-					</div>
-				</form>
-
-				<ul id="nav_list">
+				<ul id="NavList">
 					<li class="nav-item active">
 						<a href="#home">HOME</a>
 					</li>
@@ -39,28 +35,18 @@
 						<a href="#about">ABOUT</a>
 					</li>
 				</ul>
+
+				<div class="search-container">
+					<div class="search-subcontainer" id="SearchSubcontainer">
+						<input type="text" id="SearchInput" class="collapsed" />
+						<button type="submit" id="SearchButton">🔍</button>
+					</div>
+				</div>
 			</nav>
 		</header>
 
 		<main id="content">
-			<section id="home">
-				<div id="cta">
-					<h1 class="title">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-						sed do eiusmod tempor incididunt ut labore et dolore
-						magna aliqua. Ut enim ad minim veniam, quis nostrud
-						exercitation ullamco laboris nisi ut aliquip ex ea
-						commodo consequat.
-					</h1>
-					<p class="description">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-						sed do eiusmod tempor incididunt ut labore et dolore
-						magna aliqua. Ut enim ad minim veniam, quis nostrud
-						exercitation ullamco laboris nisi ut aliquip ex ea
-						commodo consequat.
-					</p>
-				</div>
-			</section>
+			<div class="main-item grid" id="Gallery"></div>
 		</main>
 	</body>
 </html>
