@@ -3,6 +3,24 @@ import { collection } from "./collection.js";
 const ArtContainer = document.getElementById("ArtContainer");
 const ArtCardTemplate = document.getElementById("ArtCardTemplate");
 
+const fill_storage = async () => {
+	const storage = collection.request_storage();
+	if (storage.length !== 0) {
+		return;
+	}
+
+	const gallery = await collection.query_gallery("oil");
+	const arts = await Promise.all(
+		gallery.map((id) => collection.request_image(id)),
+	);
+
+	await Promise.all(
+		arts
+			.filter((art) => art) //
+			.map((art) => collection.store_art(art)),
+	);
+};
+
 document.addEventListener("DOMContentLoaded", async () => {
 	const SearchInput = document.getElementById("SearchInput");
 
@@ -11,22 +29,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 	if (query) {
 		search_arts(query);
 	} else {
+		await fill_storage();
 		const storage = collection.request_storage();
-		const fill_storage = () => {
-			if (storage.length === 0) {
-				query_gallery("vincent van gogh").then((query) => {
-					query.map(async (id) => {
-						const art = await collection.request_image(id);
-						if (art) {
-							collection.store_art(art);
-						}
-					});
-				});
-
-				fill_storage();
-			}
-		};
-
 		reload_arts(storage);
 	}
 
