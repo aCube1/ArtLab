@@ -104,19 +104,15 @@ const request_image = async (id) => {
 			throw new Error("Invalid");
 		}
 
-		const description = `${result.geographyType} ${result.city}`;
-
 		const art_metadata = {
 			id: result.objectID,
 			title: result.title,
 			artist: result.artistDisplayName,
 			year: result.accessionYear,
 			medium: result.medium,
-			dimensions: result.dimensions,
 			image_url: result.primaryImageSmall,
 			full_image_url: result.primaryImage,
 			additional_image_urls: result.additionalImages,
-			desc: description,
 		};
 
 		// Cache art in localStorage for future requests
@@ -208,20 +204,10 @@ const delete_art = (id) => {
  * @param {string} title - Title
  * @param {number} year - Release year
  * @param {string} medium - Materials used to create art
- * @param {desc} desc - Description
  * @param {URL} image_url - Valid URL to some image
  * @return {ArtObject} Updated list with new metadata
  */
-const update_art = (
-	id,
-	new_id,
-	year,
-	artist,
-	title,
-	medium,
-	desc,
-	image_url,
-) => {
+const update_art = (id, new_id, year, artist, title, medium, image_url) => {
 	const art = find_art_by_id(id) ?? {};
 
 	return {
@@ -231,7 +217,6 @@ const update_art = (
 		artist: artist,
 		title: title,
 		medium: medium,
-		desc: desc,
 		image_url: image_url,
 	};
 };

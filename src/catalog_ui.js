@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 			}
 		};
 
-		render_arts(storage);
+		reload_arts(storage);
 	}
 
 	const SearchForm = document.getElementById("SearchForm");
@@ -79,6 +79,11 @@ const search_arts = async (query) => {
 	const arts = await Promise.all(
 		gallery.map((id) => collection.request_image(id)),
 	);
+
+	arts.map((art) => {
+		collection.store_art(art);
+	});
+
 	reload_arts(arts);
 };
 
@@ -102,7 +107,6 @@ const render_arts = ([art, ...artworks]) => {
 	card.querySelector(".art-artist").textContent = art.artist;
 	card.querySelector(".art-year").textContent = art.year;
 	card.querySelector(".art-medium").textContent = art.medium;
-	card.querySelector(".art-desc").textContent = art.desc;
 
 	const card_buttons = card.querySelector(".art-action-buttons");
 	card.querySelector(".art-more-button").addEventListener("click", () => {
@@ -135,7 +139,6 @@ const edit_art = (id) => {
 	const artist = prompt("artist name:");
 	const year = prompt("year:");
 	const medium = prompt("medium:");
-	const desc = prompt("description:");
 	const image_url = prompt("image url:");
 
 	if (!title || !artist || !image_url) {
@@ -149,7 +152,6 @@ const edit_art = (id) => {
 		artist,
 		title,
 		medium,
-		desc,
 		image_url,
 	);
 
