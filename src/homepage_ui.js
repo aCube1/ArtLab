@@ -18,41 +18,42 @@ const render_arts = ([art, ...artworks]) => {
 	render_arts(artworks);
 };
 
-render_arts([
-	{
-		title: "The Starry Night",
-		artist: "Vincent van Gogh",
-		year: "1889",
-		medium: "Oil on canvas",
-		image_url: "https://www.artble.com/imgs/e/d/4/45975/starry_night.jpg",
-	},
-	{
-		title: "The Persistence of Memory",
-		artist: "Salvador Dalí",
-		year: "1931",
-		medium: "Oil on canvas",
-		image_url:
-			"https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg",
-	},
-	{
-		title: "Girl with a Pearl Earring",
-		artist: "Johannes Vermeer",
-		year: "1665",
-		medium: "Oil on canvas",
-		image_url:
-			"https://upload.wikimedia.org/wikipedia/commons/d/d7/Meisje_met_de_parel.jpg",
-	},
-	{
-		title: "Mona Lisa",
-		artist: "Leonardo da Vinci",
-		year: "1503",
-		medium: "Oil on poplar",
-		image_url:
-			"https://upload.wikimedia.org/wikipedia/commons/6/6a/Mona_Lisa.jpg",
-	},
-]);
-
 document.addEventListener("DOMContentLoaded", () => {
+	render_arts([
+		{
+			title: "The Starry Night",
+			artist: "Vincent van Gogh",
+			year: "1889",
+			medium: "Oil on canvas",
+			image_url:
+				"https://www.artble.com/imgs/e/d/4/45975/starry_night.jpg",
+		},
+		{
+			title: "The Persistence of Memory",
+			artist: "Salvador Dalí",
+			year: "1931",
+			medium: "Oil on canvas",
+			image_url:
+				"https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg",
+		},
+		{
+			title: "Girl with a Pearl Earring",
+			artist: "Johannes Vermeer",
+			year: "1665",
+			medium: "Oil on canvas",
+			image_url:
+				"https://upload.wikimedia.org/wikipedia/commons/d/d7/Meisje_met_de_parel.jpg",
+		},
+		{
+			title: "Ophelia",
+			artist: "Sir John Everett Millais",
+			year: "1851",
+			medium: "Oil on canvas",
+			image_url:
+				"https://eclecticlight.co/wp-content/uploads/2019/07/millaisopheliad1.jpg",
+		},
+	]);
+
 	const SearchContainer = document.querySelector(".search-container");
 	const SearchButton = document.getElementById("SearchButton");
 	const SearchInput = document.getElementById("SearchInput");
