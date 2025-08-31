@@ -4,14 +4,20 @@
  * @property {number} id - Unique ID
  * @property {string} title - Title given by artist
  * @property {number} year - Release year
+ * @property {string} artist - Artist's display name
  * @property {string} desc - General information about the art
- * @property {URL} image_url - Primary image URL
- * @property {URL} thumbnail_url - Thumbnail image URL
+ * @property {string} medium - Materials that were used to create the artwork
+ * @property {string} dimensions - Image dimensions
+ * @property {string} image_url - URL to the image
+ * @property {string} full_image_url - URL to the full image
  * @property {Array<URL>} additional_image_urls - Additional images URLs
  */
 
+// Used to bypass CORS validation
+const CORS_PROXY = "https://corsproxy.io/?";
+
 const METMUSEUM_URL =
-	"https://collectionapi.metmuseum.org/public/collection/v1/";
+	CORS_PROXY + "https://collectionapi.metmuseum.org/public/collection/v1/";
 
 const STORAGE_KEY = "artslab::gallery";
 
@@ -50,9 +56,9 @@ const query_gallery = async (query) => {
 
 	// URL composition:
 	// ?hasImages=true
-	// ?q=query
+	// &q=query
 	const url =
-		METMUSEUM_URL + `search?q=${_encode_query(query)}?hasImages=true`;
+		METMUSEUM_URL + `search?q=${_encode_query(query)}&hasImages=true`;
 
 	try {
 		const response = await fetch(url);
@@ -114,7 +120,7 @@ const request_image = async (id) => {
 
 		const result = await response.json();
 		if (!result) {
-			throw new Error(`Invalid`);
+			throw new Error("Invalid");
 		}
 
 		const description = `${result.geographyType} ${result.city}`;
@@ -122,11 +128,12 @@ const request_image = async (id) => {
 		const art_metadata = {
 			id: result.objectID,
 			title: result.title,
+			artist: result.artistDisplayName,
 			year: result.accessionYear,
 			medium: result.medium,
 			dimensions: result.dimensions,
-			image_url: result.primaryImage,
-			thumbnail_url: result.primaryImageSmall,
+			image_url: result.primaryImageSmall,
+			full_image_url: result.primaryImage,
 			additional_image_urls: result.additionalImages,
 			desc: description,
 		};
@@ -148,19 +155,19 @@ const request_image = async (id) => {
 const get_random_art = async () => {
 	const storage_data = _request_storage();
 	if (storage_data.length === 0) {
-		console.log("Local gallery is empty, populating it with Van Gogh...");
-		const query = await query_gallery("van gogh");
-		query.map(async (id) => {
-			const art = await request_image(id);
-			if (art) {
-				store_art(art);
-			}
+		query_gallery("da vinci").then((query) => {
+			query.map(async (id) => {
+				const art = await request_image(id);
+				if (art) {
+					store_art(art);
+				}
+			});
 		});
+
+		return get_random_art();
 	}
 
-	const new_storage_data = _request_storage();
-	const random_index = Math.floor(Math.random() * new_storage_data.length);
-	console.log(new_storage_data);
+	const random_index = Math.floor(Math.random() * storage_data.length);
 	return storage_data[random_index];
 };
 
@@ -226,10 +233,10 @@ const _encode_file_as_base64 = (file) => {
  * @see update_art_image update_art_metadata
  * @return {Promise<ArtObject>} - New art with metadata
  */
-const create_art_object = async (id, year, image, thumbnail = null) => {
+const create_art_object = async (id, year, image, full_image = null) => {
 	return {
 		...update_art_metadata({}, id, year),
-		...(await update_art_image({}, image, thumbnail)),
+		...(await update_art_image({}, image, full_image)),
 	};
 };
 
@@ -254,16 +261,16 @@ const update_art_metadata = (art, id, year) => {
  *
  * @param {ArtObject} art - List with art's metadata
  * @param {File} image - Image data
- * @param {File?} thumbnail - Thumbail's data <optional>
+ * @param {File?} full_image - Full image data <optional>
  * @return {Promise<(ArtObject|null)>} Updated list with new image and thumbnail
  */
-const update_art_image = async (art, image, thumbnail = null) => {
-	const img_data = await _encode_file_as_base64(image);
-	const thumb_data = thumbnail
-		? await _encode_file_as_base64(thumbnail)
+const update_art_image = async (art, image, full_image = null) => {
+	const img_url = await _encode_file_as_base64(image);
+	const full_img_url = full_image
+		? await _encode_file_as_base64(full_image)
 		: img_data;
 
-	if (!img_data || !thumb_data) {
+	if (!img_url || !full_img_url) {
 		console.error(`Failed to read image file`);
 		return null;
 	}
@@ -271,8 +278,8 @@ const update_art_image = async (art, image, thumbnail = null) => {
 	console.log(`Art with ID '${id} image was updated'`);
 	return {
 		...art,
-		image_url: img_data,
-		thumbnail_url: thumb_data,
+		image_url: img_url,
+		full_image_url: full_img_url,
 	};
 };
 
