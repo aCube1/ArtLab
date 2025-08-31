@@ -42,6 +42,3 @@ const add_art_slider = (art) => {
 
 	ArtContainer.appendChild(clone);
 };
-
-// Welcome message
-collection.get_random_art().then((art) => add_art_slider(art));

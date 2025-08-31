@@ -1,0 +1,71 @@
+<!doctype html5>
+<html lang="en-US">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Art Catalog</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="css/catalog_ui.css" rel="stylesheet" />
+		<script type="module" src="src/catalog_ui.js"></script>
+	</head>
+
+	<body>
+		<h1>Art Catalog</h1>
+		<p class="subtitle">A curated collection of masterpieces</p>
+
+		<form id="SearchForm">
+			<div id="SearchContainer" class="search-container">
+				<button id="SearchButton">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						stroke-width="2"
+						viewBox="0 0 24 24"
+					>
+						<circle cx="11" cy="11" r="8" />
+						<line x1="21" y1="21" x2="16.65" y2="16.65" />
+					</svg>
+				</button>
+				<input
+					type="text"
+					id="SearchInput"
+					placeholder="Search by title, artist, medium, or year"
+				/>
+			</div>
+		</form>
+
+		<button id="AddArtButton" class="add-art-button">+ Add New Art</button>
+
+		<template id="ArtCardTemplate">
+			<div class="art-card" data-objectid="">
+				<img class="art-image" />
+				<div class="art-title"></div>
+				<div class="art-info">
+					<strong>Artist: </strong>
+					<div class="art-artist"></div>
+				</div>
+				<div class="art-info">
+					<strong>Year: </strong>
+					<div class="art-year"></div>
+				</div>
+				<div class="art-info">
+					<strong>Medium: </strong>
+					<div class="art-medium"></div>
+				</div>
+				<div class="art-info">
+					<strong>Desc: </strong>
+					<div class="art-desc"></div>
+				</div>
+				<button class="art-more-button">⋮</button>
+				<div class="art-action-buttons">
+					<button class="art-action-edit">Edit</button>
+					<button class="art-action-delete">Delete</button>
+				</div>
+			</div>
+		</template>
+
+		<div class="art-container" id="ArtContainer"></div>
+	</body>
+</html>

@@ -1,82 +1,168 @@
-<!doctype html>
+<!doctype html5>
 <html lang="en-US">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<link href="css/style.css" rel="stylesheet" />
-		<link href="css/header.css" rel="stylesheet" />
-		<link href="css/gallery.css" rel="stylesheet" />
-		<link href="css/art_slider.css" rel="stylesheet" />
-
-		<script type="module" src="src/collection.js"></script>
-		<script type="module" src="src/ui.js"></script>
-
 		<title>Monalisa's Gallery</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="css/homepage_ui.css" rel="stylesheet" />
+
+		<script type="module" src="src/homepage_ui.js"></script>
 	</head>
+
 	<body>
 		<header>
-			<nav id="Navbar">
-				<img
-					id="NavLogo"
-					src="assets/monalisalogo.svg"
-					alt="Gallery's logo"
-				/>
-
-				<ul id="NavList">
-					<li class="nav-item active">
-						<a href="#home">HOME</a>
-					</li>
-
-					<li class="nav-item">
-						<a href="#catalog">CATALOG</a>
-					</li>
-
-					<li class="nav-item">
-						<a href="#about">ABOUT</a>
-					</li>
-				</ul>
-
-				<div class="search-container">
-					<div class="search-subcontainer" id="SearchSubcontainer">
-						<input type="text" id="SearchInput" class="collapsed" />
-						<button type="submit" id="SearchButton">🔍</button>
-					</div>
-				</div>
-			</nav>
+			<ul id="NavList">
+				<li>
+					<a href="./catalog.html"><button>ART CATALOG</button></a>
+				</li>
+				<li>
+					<a href="./about.html"><button>MEET OUR TEAM</button></a>
+				</li>
+			</ul>
+			<div class="search-container">
+				<button id="SearchButton">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="20"
+						height="20"
+						fill="none"
+						stroke="#fff"
+						stroke-width="2"
+						viewBox="0 0 24 24"
+					>
+						<circle cx="11" cy="11" r="8" />
+						<line x1="21" y1="21" x2="16.65" y2="16.65" />
+					</svg>
+				</button>
+				<form id="SearchForm">
+					<input
+						type="text"
+						id="SearchInput"
+						maxlength="96"
+						placeholder="Search artworks..."
+					/>
+				</form>
+			</div>
 		</header>
 
-		<main id="content">
-			<section class="art-slider" id="ArtSlider">
-				<div id="cta">
-					<h1>Welcome to Monalisa's Gallery</h1>
-					<p>Explore artworks from around the world</p>
-				</div>
+		<main>
+			<div id="CTA">
+				<h1>Welcome to Monalisa's Gallery</h1>
+				<p>Explore artworks from around the world</p>
+			</div>
 
-				<template id="ArtSlideTemplate">
-					<div class="art">
-						<div class="art-info">
-							<h2 class="art-title"></h2>
-							<sub><p class="art-artist"></p></sub>
-							<em><p class="art-year"></p></em>
-							<p class="art-desc"></p>
-							<p>
-								<strong>Medium:</strong>
-								<span class="art-medium"></span>
-							</p>
-							<p>
-								<strong>Dimensions:</strong>
-								<span class="art-dimensions"></span>
-							</p>
-						</div>
+			<template id="ArtCardTemplate">
+				<div class="art-card">
+					<img class="art-image" />
+					<div class="art-title"></div>
+					<div class="art-info">
+						<strong>Artist: </strong>
+						<div class="art-artist"></div>
 					</div>
-				</template>
+					<div class="art-info">
+						<strong>Year: </strong>
+						<div class="art-year"></div>
+					</div>
+					<div class="art-info">
+						<strong>Medium: </strong>
+						<div class="art-medium"></div>
+					</div>
+				</div>
+			</template>
 
-				<div id="ArtContainer"></div>
+			<div class="card-container">
+				<div class="card-track" id="ArtContainer"></div>
+			</div>
 
-				<div class="navigation">
-					<button class="navigation-prev hidden">&#10094;</button>
-					<button class="navigation-next hidden">&#10095;</button>
+			<section id="Timeline">
+				<p class="intro-text">
+					"Amazing way to explore great art from home, also a super
+					useful source for research" - Fernandes, Yuri - Brasil
+					Undergratuated Student
+				</p>
+				<p class="intro-text">
+					"Incredible chance to discover unique art, plus a trusted
+					source of knowledge online" - Aquino, Evilyn - Brasil
+					Undergratuated Student
+				</p>
+
+				<h2>Art History Timeline</h2>
+
+				<div class="timeline-events">
+					<div class="timeline-event">
+						<div class="period">Prehistoric & Ancient</div>
+						<span>From cave paintings to Greco-Roman art</span>
+					</div>
+					<div class="timeline-event">
+						<div class="period">Medieval</div>
+						<span>Byzantine, Romanesque, Gothic</span>
+					</div>
+					<div class="timeline-event">
+						<div class="period">Renaissance & Mannerism</div>
+						<span>Realism, perspective, elegance</span>
+					</div>
+					<div class="timeline-event">
+						<div class="period">Baroque & Rococo</div>
+						<span>Drama, ornamentation, light & shadow</span>
+					</div>
+					<div class="timeline-event">
+						<div class="period">Neoclassicism to Realism</div>
+						<span>Classical ideals, everyday life</span>
+					</div>
+					<div class="timeline-event">
+						<div class="period">
+							Impressionism & Post-Impressionism
+						</div>
+						<span>Light, color, modern life</span>
+					</div>
+					<div class="timeline-event">
+						<div class="period">Modern Art</div>
+						<span>Cubism, Surrealism, Expressionism</span>
+					</div>
+					<div class="timeline-event">
+						<div class="period">Contemporary</div>
+						<span>Digital, performance, installations</span>
+					</div>
+				</div>
+			</section>
+
+			<section id="DaVinciQuote">
+				<div class="artist-quote">
+					<img
+						src="https://dasartes-media.storage.googleapis.com/dasartes.com.br/wp-content/uploads/2025/06/04124618/William-Dobson-Self-Portrait-787x1024-1.jpg"
+						alt="William Dobson"
+					/>
+					<h3 class="artist-name">William Dobson</h3>
+					<p class="artist-desc">Capture light, embrace shadow</p>
+				</div>
+				<div class="artist-quote">
+					<img
+						src="https://www.museothyssen.org/sites/default/files/styles/full_resolution/public/imagen/obras/1976.90_autorretrato-gorra-dos-cadenas.jpg"
+						alt="Rembrandt"
+					/>
+					<h3 class="artist-name">Rembrandt</h3>
+					<p class="artist-desc">Paint truth in every stroke</p>
+				</div>
+				<div class="artist-quote">
+					<img
+						src="https://d39p6vuvq68m8a.cloudfront.net/image/d9f77482-1a42-4ae2-22f6-ba92afd5065a.jpg"
+						alt="Vicent van Gogh"
+					/>
+					<h3 class="artist-name">Vicent van Gogh</h3>
+					<p class="artist-desc">Color speaks where words fail</p>
+				</div>
+				<div class="artist-quote">
+					<img
+						src="https://www.tripimprover.com/uploads/7/3/6/3/73636755/anguissola-self-portrait-at-the-easel-1556_orig.jpg"
+						alt="Sofonisba Anguissola"
+					/>
+					<h3 class="artist-name">Sofonisba Anguissola</h3>
+					<p class="artist-desc">Art reflects the soul within</p>
 				</div>
 			</section>
 		</main>

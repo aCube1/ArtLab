@@ -1,0 +1,265 @@
+@media (max-width: 800px) {
+	#DaVinciQuote {
+		flex-direction: column;
+		gap: 40px;
+	}
+	.artist-quote img {
+		max-width: 80%;
+		height: auto;
+	}
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "Inter", sans-serif;
+	background: #111;
+	color: #fff;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+header {
+	width: 100%;
+	max-width: 1200px;
+	background: rgba(255, 255, 255, 0.05);
+	backdrop-filter: blur(6px);
+	padding: 15px 40px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	margin: 0 auto;
+}
+
+main {
+	padding: 80px 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	max-width: 1200px;
+	gap: 80px;
+}
+
+#NavList {
+	list-style: none;
+	display: flex;
+	gap: 20px;
+}
+
+#NavList li button {
+	background: transparent;
+	color: #fff;
+	border: 2px solid #ffffff33;
+	border-radius: 4px;
+	padding: 6px 12px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	font-size: 14px;
+}
+
+#NavList li button:hover {
+	background: rgba(255, 255, 255, 0.1);
+	border-color: #fff;
+}
+
+.search-container {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+#SearchButton {
+	background: transparent;
+	border: none;
+	color: #fff;
+	font-size: 20px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+
+#SearchInput {
+	width: 0;
+	opacity: 0;
+	padding: 6px 12px;
+	margin-left: 8px;
+	border-radius: 4px;
+	border: none;
+	outline: none;
+	background: rgba(255, 255, 255, 0.1);
+	color: #fff;
+	transition:
+		width 0.3s ease,
+		opacity 0.3s ease;
+}
+
+.search-container.active #SearchInput {
+	width: 180px;
+	opacity: 1;
+}
+
+#CTA {
+	text-align: center;
+	margin-bottom: -20px;
+}
+
+#CTA h1 {
+	font-size: 36px;
+	font-weight: 700;
+	margin-bottom: 15px;
+}
+
+#CTA p {
+	font-size: 18px;
+	color: #aaa;
+}
+
+.card-container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	overflow-x: auto;
+	padding-bottom: 30px;
+	scroll-behavior: smooth;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.card-container::-webkit-scrollbar {
+	display: none;
+}
+
+.card-track {
+	display: flex;
+	gap: 30px;
+	justify-content: center;
+}
+
+.art-card {
+	background: rgba(255, 255, 255, 0.05);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 16px;
+	padding: 20px;
+	backdrop-filter: blur(6px);
+	min-width: 250px;
+	flex-shrink: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+}
+
+.art-image {
+	width: 100%;
+	height: 180px;
+	object-fit: cover;
+	border-radius: 12px;
+}
+
+.art-title {
+	font-weight: 600;
+	font-size: 18px;
+	text-align: center;
+}
+
+.art-info {
+	font-size: 14px;
+	color: #bbbbbb;
+	text-align: center;
+}
+
+#Timeline {
+	width: 100%;
+	text-align: center;
+	margin-top: 60px;
+}
+
+#Timeline p.intro-text {
+	max-width: 900px;
+	margin: 0 auto 160px;
+	color: #aaa;
+	font-size: 18px;
+	line-height: 1.6;
+	text-align: center;
+}
+
+#Timeline h2 {
+	font-size: 28px;
+	font-weight: 700;
+	margin-bottom: 50px;
+}
+
+.timeline-events {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 50px;
+}
+
+.timeline-event {
+	min-width: 180px;
+	text-align: center;
+}
+
+.timeline-event .period {
+	font-weight: 600;
+	font-size: 18px;
+	margin-bottom: 8px;
+}
+
+.timeline-event span {
+	font-size: 14px;
+	color: #ccc;
+}
+
+#DaVinciQuote {
+	width: 100%;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	gap: 50px;
+	margin-top: 80px;
+	flex-wrap: wrap;
+}
+
+.artist-quote {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	max-width: 250px;
+	text-align: center;
+	gap: 10px;
+}
+
+.artist-quote img {
+	width: 250px;
+	height: 250px;
+	object-fit: cover;
+	border-radius: 12px;
+}
+
+.artist-quote .artist-name {
+	font-size: 18px;
+	font-weight: 600;
+	color: #fff;
+	text-align: center;
+}
+
+.artist-quote .artist-desc {
+	font-size: 14px;
+	color: #ccc;
+	text-align: center;
+	line-height: 1.4;
+}
