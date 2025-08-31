@@ -28,16 +28,19 @@ const add_art_slider = (art) => {
 	const clone = ArtSlideTemplate.content.cloneNode(true);
 	clone
 		.querySelector(".art")
-		.setAttribute("style", `background-image: url(${art.thumbnail_url});`);
+		.setAttribute("style", `background-image: url(${art.image_url});`);
+
+	console.log(art.artist);
+	console.log(art.desc);
 
 	clone.querySelector(".art-title").textContent = art.title;
+	clone.querySelector(".art-artist").textContent = art.artist;
 	clone.querySelector(".art-year").textContent = art.year;
 	clone.querySelector(".art-desc").textContent = art.desc;
 	clone.querySelector(".art-medium").textContent = art.medium;
 	clone.querySelector(".art-dimensions").textContent = art.dimensions;
 
 	ArtContainer.appendChild(clone);
-	console.log("HI");
 };
 
 // Welcome message
