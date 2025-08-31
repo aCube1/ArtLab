@@ -7,6 +7,7 @@
 		<link href="css/style.css" rel="stylesheet" />
 		<link href="css/header.css" rel="stylesheet" />
 		<link href="css/gallery.css" rel="stylesheet" />
+		<link href="css/art_slider.css" rel="stylesheet" />
 
 		<script type="module" src="src/collection.js"></script>
 		<script type="module" src="src/ui.js"></script>
@@ -46,7 +47,37 @@
 		</header>
 
 		<main id="content">
-			<div class="main-item grid" id="Gallery"></div>
+			<section class="art-slider" id="ArtSlider">
+				<div id="cta">
+					<h1>Welcome to Monalisa's Gallery</h1>
+					<p>Explore artworks from around the world</p>
+				</div>
+
+				<template id="ArtSlideTemplate">
+					<div class="art">
+						<div class="art-info">
+							<h2 class="art-title"></h2>
+							<em><p class="art-year"></p></em>
+							<p class="art-desc"></p>
+							<p>
+								<strong>Medium:</strong>
+								<span class="art-medium"></span>
+							</p>
+							<p>
+								<strong>Dimensions:</strong>
+								<span class="art-dimensions"></span>
+							</p>
+						</div>
+					</div>
+				</template>
+
+				<div id="ArtContainer"></div>
+
+				<div class="navigation">
+					<button class="navigation-prev hidden">&#10094;</button>
+					<button class="navigation-next hidden">&#10095;</button>
+				</div>
+			</section>
 		</main>
 	</body>
 </html>

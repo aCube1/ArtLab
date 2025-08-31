@@ -1,6 +1,6 @@
 @font-face {
 	font-family: mvboli;
-	src: url("./assets/mvboli.ttf");
+	src: url("/assets/mvboli.ttf") format("truetype");
 }
 
 header {

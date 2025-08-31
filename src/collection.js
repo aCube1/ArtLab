@@ -2,7 +2,9 @@
  * @typedef ArtObject
  * @type {object}
  * @property {number} id - Unique ID
+ * @property {string} title - Title given by artist
  * @property {number} year - Release year
+ * @property {string} desc - General information about the art
  * @property {URL} image_url - Primary image URL
  * @property {URL} thumbnail_url - Thumbnail image URL
  * @property {Array<URL>} additional_image_urls - Additional images URLs
@@ -115,12 +117,18 @@ const request_image = async (id) => {
 			throw new Error(`Invalid`);
 		}
 
+		const description = `${result.geographyType} ${result.city}`;
+
 		const art_metadata = {
 			id: result.objectID,
+			title: result.title,
 			year: result.accessionYear,
+			medium: result.medium,
+			dimensions: result.dimensions,
 			image_url: result.primaryImage,
 			thumbnail_url: result.primaryImageSmall,
 			additional_image_urls: result.additionalImages,
+			desc: description,
 		};
 
 		// Cache art in localStorage for future requests
@@ -129,6 +137,31 @@ const request_image = async (id) => {
 		console.error(`Failed to fetch data from '${url}': ${err.message}`);
 		return null;
 	}
+};
+
+/**
+ * Get random art from gallery. If gallery is empty, fill it with
+ * Vincent Van Gogh's arts.
+ *
+ * @return {Promise<ArtObject>} Random art object
+ */
+const get_random_art = async () => {
+	const storage_data = _request_storage();
+	if (storage_data.length === 0) {
+		console.log("Local gallery is empty, populating it with Van Gogh...");
+		const query = await query_gallery("van gogh");
+		query.map(async (id) => {
+			const art = await request_image(id);
+			if (art) {
+				store_art(art);
+			}
+		});
+	}
+
+	const new_storage_data = _request_storage();
+	const random_index = Math.floor(Math.random() * new_storage_data.length);
+	console.log(new_storage_data);
+	return storage_data[random_index];
 };
 
 /**
@@ -147,12 +180,14 @@ const reset_gallery = () => {
  */
 const store_art = (art) => {
 	const storage_data = _request_storage();
-	const matches = storage_data.filter((img) => img.id == art.id);
+	const matches = storage_data.filter(
+		(img) => img && art && img.id == art.id,
+	);
 	if (matches.length > 0 && matches[0]) {
-		delete_art(matches[0].id);
 		console.warn(
 			`Art with ID ${matches[0].id} already exists! Deleting it... :D`,
 		);
+		delete_art(matches[0].id);
 	}
 
 	localStorage.setItem(STORAGE_KEY, JSON.stringify([...storage_data, art]));
@@ -166,7 +201,7 @@ const store_art = (art) => {
  */
 const delete_art = (id) => {
 	const storage_data = _request_storage();
-	const filtered_gallery = storage_data.filter((img) => img.id != id);
+	const filtered_gallery = storage_data.filter((img) => img && img.id != id);
 	localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered_gallery));
 
 	console.log(`Art with ID ${id} from local gallery was deleted`);
@@ -245,6 +280,7 @@ export const collection = {
 	// MetMuseum database reading
 	query_gallery,
 	request_image,
+	get_random_art,
 
 	// CRUD operations: Create, update, delete
 	reset_gallery,
