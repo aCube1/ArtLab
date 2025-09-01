@@ -51,14 +51,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 		const artist = prompt("artist name:");
 		const year = prompt("year:");
 		const medium = prompt("medium:");
-		const desc = prompt("description:");
 		const image_url = prompt("image url:");
 
 		if (!id || !title || !artist || !image_url) {
 			return;
 		}
 
-		if (find_art_by_id(id)) {
+		if (collection.find_art_by_id(id)) {
 			alert(`Art with ID ${id} already exists`);
 			return;
 		}
@@ -69,7 +68,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 			artist,
 			title,
 			medium,
-			desc,
 			image_url,
 		);
 
