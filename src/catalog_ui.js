@@ -4,22 +4,27 @@ const ArtContainer = document.getElementById("ArtContainer");
 const ArtCardTemplate = document.getElementById("ArtCardTemplate");
 
 const fill_storage = async () => {
-	const storage = collection.request_storage();
+	const storage = collection.request_storage("cache");
 	if (storage.length !== 0) {
 		return;
 	}
 
 	const gallery = await collection.query_gallery("oil");
 	const arts = await Promise.all(
-		gallery.map((id) => collection.request_image(id)),
+		gallery.map((id) => collection.request_image(id, "cache")),
 	);
 
 	await Promise.all(
 		arts
 			.filter((art) => art) //
-			.map((art) => collection.store_art(art)),
+			.map((art) => collection.cache_art(art)),
 	);
 };
+
+const merge_storage = () => [
+	...collection.request_storage("user"),
+	...collection.request_storage("cache"),
+];
 
 document.addEventListener("DOMContentLoaded", async () => {
 	const SearchInput = document.getElementById("SearchInput");
@@ -30,8 +35,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		search_arts(query);
 	} else {
 		await fill_storage();
-		const storage = collection.request_storage();
-		reload_arts(storage);
+		reload_arts(merge_storage());
 	}
 
 	const SearchForm = document.getElementById("SearchForm");
@@ -46,12 +50,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 	});
 
 	document.getElementById("AddArtButton").addEventListener("click", () => {
-		const id = prompt("unique id:");
-		const title = prompt("art title:");
-		const artist = prompt("artist name:");
-		const year = prompt("year:");
-		const medium = prompt("medium:");
-		const image_url = prompt("image url:");
+		const id = prompt("Unique ID:");
+		const title = prompt("Art Title:");
+		const artist = prompt("Artist Name:");
+		const year = prompt("Year:");
+		const medium = prompt("Medium:");
+		const image_url = prompt("Image URL:");
 
 		if (!id || !title || !artist || !image_url) {
 			return;
@@ -64,6 +68,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 		const art = collection.update_art(
 			id,
+			id,
 			year,
 			artist,
 			title,
@@ -71,22 +76,50 @@ document.addEventListener("DOMContentLoaded", async () => {
 			image_url,
 		);
 
-		collection.store_art(art);
-		reload_arts(collection.request_storage());
+		collection.store_user_art(art);
+		reload_arts(merge_storage());
 	});
 });
 
+const search_storage = (query, type) => {
+	const storage = collection.request_storage(type);
+	const queries = decodeURIComponent(query).split(" ");
+
+	const lower_queries = queries.map((q) => q.toLowerCase());
+
+	return storage
+		.map((art) => {
+			const score = lower_queries.reduce((acc, q) => {
+				const haystack = [art.title, art.artist, art.desc]
+					.join(" ")
+					.toLowerCase();
+				return acc + (haystack.includes(q) ? 1 : 0);
+			}, 0);
+
+			return { art, score };
+		})
+		.filter((obj) => obj.score > 0)
+		.map((obj) => obj.art);
+};
+
 const search_arts = async (query) => {
+	const user_storage = search_storage(query, "user");
+
 	const gallery = await collection.query_gallery(query);
 	const arts = await Promise.all(
-		gallery.map((id) => collection.request_image(id)),
+		gallery.map((id) => collection.request_image(id, "cache")),
 	);
 
-	arts.map((art) => {
-		collection.store_art(art);
-	});
+	if (arts) {
+		arts.map((art) => {
+			collection.cache_art(art);
+		});
 
-	reload_arts(arts);
+		reload_arts([...user_storage, ...arts]);
+	} else {
+		const cache_storage = search_storage(query, "cache");
+		reload_arts([...user_storage, ...cache_storage]);
+	}
 };
 
 const reload_arts = (arts) => {
@@ -157,8 +190,8 @@ const edit_art = (id) => {
 		image_url,
 	);
 
-	collection.store_art(art);
-	reload_arts(collection.request_storage());
+	collection.store_user_art(art);
+	reload_arts(merge_storage());
 };
 
 const delete_art = (id) => {
@@ -168,5 +201,5 @@ const delete_art = (id) => {
 	}
 
 	collection.delete_art(id);
-	reload_arts(collection.request_storage());
+	reload_arts(merge_storage());
 };
